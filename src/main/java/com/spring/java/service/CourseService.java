@@ -47,5 +47,10 @@ public class CourseService {
     }
 	
     
-    
+    // Delete a course by id
+    public boolean deleteBaseOnCourse(int id) {
+        return courses
+                .removeIf(course -> course.getCourseID() == id);
+    }
+
 }
