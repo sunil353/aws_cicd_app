@@ -15,16 +15,6 @@ public class Course {
 	private double coursePrice;
 	
 
-	public Course() {
-		
-		// TODO Auto-generated constructor stub
-	}
-	public Course(int courseID, String courseName, double coursePrice) {
-		super();
-		this.courseID = courseID;
-		this.courseName = courseName;
-		this.coursePrice = coursePrice;
-	}
 	public int getCourseID() {
 		return courseID;
 	}
