@@ -1,15 +1,20 @@
 version: 0.2
 
 phases:
-  pre_build:
-    commands:
-      - mvn clean install
-      - echo Logging in to Amazon ECR...
-      - aws --version
-      - REPOSITORY_URI=410261409118.dkr.ecr.eu-north-1.amazonaws.com/courses_registry
-      - aws ecr get-login-password --region eu-north-1 | docker login --username AWS --password-stdin $REPOSITORY_URI
-      - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
-      - IMAGE_TAG=build-$(echo $CODEBUILD_BUILD_ID | awk -F":" '{print $2}')
+pre_build:
+  commands:
+    - mvn clean install
+    - echo Logging in to Amazon ECR...
+    - aws --version
+    - REPOSITORY_URI=410261409118.dkr.ecr.eu-north-1.amazonaws.com/courses_registry
+    - |
+      # Ensure repository exists
+      aws ecr describe-repositories --repository-names courses_registry || \
+      aws ecr create-repository --repository-name courses_registry
+    - aws ecr get-login-password --region eu-north-1 | docker login --username AWS --password-stdin $REPOSITORY_URI
+    - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
+    - IMAGE_TAG=build-${CODEBUILD_BUILD_NUMBER:-latest}
+
   build:
     commands:
       - echo Build started on `date`
