@@ -1,5 +1,5 @@
 # Use the official OpenJDK 17 image from AWS Public ECR
-FROM public.ecr.aws/eclipse-temurin/temurin:17-jdk
+FROM public.ecr.aws/docker/library/eclipse-temurin:17-jdk
 
 # Set working directory inside the container
 WORKDIR /app
