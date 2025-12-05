@@ -45,18 +45,5 @@ public class CourseService {
         return courses
                 .removeIf(course -> course.getCourseID() == id);
     }
-	
-    
-    // Delete a course by id
-    public boolean deleteBaseOnCourse(int id) {
-        return courses
-                .removeIf(course -> course.getCourseID() == id);
-    }
-
-    
- // Retrieve all courses
-    public List<Course> getAllCoursesBaseOnID() {
-        return courses;
-    }
 
 }
