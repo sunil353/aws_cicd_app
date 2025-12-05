@@ -53,4 +53,10 @@ public class CourseService {
                 .removeIf(course -> course.getCourseID() == id);
     }
 
+    
+ // Retrieve all courses
+    public List<Course> getAllCoursesBaseOnID() {
+        return courses;
+    }
+
 }
