@@ -1,7 +1,6 @@
 # Use the official OpenJDK 17 image from Docker Hub
 FROM public.ecr.aws/eclipse-temurin/eclipse-temurin:17-jdk
 
-
 # Set working directory inside the container
 WORKDIR /app
 
