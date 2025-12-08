@@ -3,16 +3,20 @@ version: 0.2
 env:
   variables:
     REPOSITORY_URI: "410261409118.dkr.ecr.us-east-1.amazonaws.com/courses_registry"
-    DOCKER_CONTAINER_NAME: "course-service"
+    DOCKER_CONTAINER_NAME: "courses_registry"   # <-- FIXED
 
 phases:
   pre_build:
     commands:
       - echo "Running Maven build..."
       - mvn clean install -DskipTests
+
       - echo "Logging in to Amazon ECR..."
       - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin $REPOSITORY_URI
-      - IMAGE_TAG=$(echo $CODEBUILD_BUILD_ID | awk -F":" '{print $2}')
+
+      - echo "Setting IMAGE_TAG..."
+      - export IMAGE_TAG=$(echo $CODEBUILD_BUILD_ID | awk -F":" '{print $2}')
+      - echo "IMAGE_TAG = $IMAGE_TAG"
 
   build:
     commands:
@@ -27,8 +31,10 @@ phases:
       - echo "Pushing Docker images..."
       - docker push $REPOSITORY_URI:latest
       - docker push $REPOSITORY_URI:$IMAGE_TAG
+
       - echo "Generating imagedefinitions.json..."
       - printf '[{"name":"%s","imageUri":"%s"}]' "$DOCKER_CONTAINER_NAME" "$REPOSITORY_URI:$IMAGE_TAG" > imagedefinitions.json
+
       - echo "Content of imagedefinitions.json:"
       - cat imagedefinitions.json
 
