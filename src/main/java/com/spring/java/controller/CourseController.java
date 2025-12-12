@@ -71,6 +71,11 @@ public class CourseController {
 		return "Hello Techie , AWS CICD Example working fine !";
 	}
 
+	@GetMapping("/testWelcome")
+	public String testWelcome() {
+		return "Hello Techie , AWS CICD Example working fine !";
+	}
+	
 	
 	 
 }
